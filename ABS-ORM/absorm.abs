@@ -1,0 +1,130 @@
+module Test;
+import * from ABS.FLI;
+
+interface AbsDbOrm {
+	List<Account> findAll(String className);
+	List<Account> findAllByAttributes(String className, String query);
+	Account find(String className);
+	Account findByAttributes(String className, String query);
+	Unit save(Account account);
+	Unit delete(Account account);
+	Account update(Account account);
+	String log(String log);
+	String object_log(Account account);
+}
+	
+[Foreign]
+class AbsDbOrmImpl implements AbsDbOrm {
+	List<Account> findAllByAttributes(String className, String query) {
+		return Nil;
+	}
+	List<Account> findAll(String className) {
+		return Nil;
+	}
+	Account findByAttributes(String className, String query) {
+		return new local AccountImpl();
+	}
+	Account find(String className) {
+		return new local AccountImpl();
+	}
+	Unit save(Account account) {
+		
+	}
+	Unit delete(Account account) {
+	
+	}
+	Account update(Account account) {
+		return new local AccountImpl();
+	}
+	String log(String log) {
+		return "return log";
+	}
+	String object_log(Account account) {
+		return "return log";
+	}
+}
+
+
+
+interface Account
+{
+    Unit setFirstName(String firstName);
+    String getFirstName();
+    Unit setLastName(String lastName);
+    String getLastName();
+	Unit setbalance(Rat balance);
+    Rat getbalance();
+    Unit setId(Int id);
+    Int getId();
+}
+
+class AccountImpl implements Account
+{
+    String firstName = "";
+    String lastName = "";
+	Rat balance = 0;
+    Int id = 0;
+    
+    Unit setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    String getFirstName()
+    {
+        return this.firstName;
+    }
+    
+    Unit setLastName(String lastName)
+    {
+    	this.lastName = lastName;
+    }
+    
+    String getLastName()
+    {
+    	return this.lastName;
+    }
+	
+	Unit setbalance(Rat balance)
+    {
+    	this.balance = balance;
+    }
+    
+    Rat getbalance()
+    {
+    	return this.balance;
+    }
+    
+    Unit setId(Int id)
+    {
+    	this.id = id;
+    }
+    
+    Int getId()
+    {
+    	return this.id;
+    }
+}
+
+{
+	//Scenario Save
+	AbsDbOrm absdborm = new local AbsDbOrmImpl();
+	Account account = new local AccountImpl();
+	account.setFirstName("Budi");
+	//absdborm.save(account);
+	
+	Account account2 = new local AccountImpl();
+	account2.setFirstName("Budi");
+	account2.setLastName("Budiman");
+	//absdborm.save(account2);
+	
+	
+	//Scenarion Find (1 item)
+	Account akun = absdborm.find("Test.AccountImpl_c");
+	String nama = akun.getFirstName();
+	absdborm.log(nama);
+	
+	Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=12");
+	String nama2 = akun2.getFirstName();
+	absdborm.log(nama2);
+}
