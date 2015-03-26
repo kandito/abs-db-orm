@@ -110,21 +110,29 @@ class AccountImpl implements Account
 	//Scenario Save
 	AbsDbOrm absdborm = new local AbsDbOrmImpl();
 	Account account = new local AccountImpl();
-	account.setFirstName("Budi");
+	account.setFirstName("Kandito");
 	//absdborm.save(account);
 	
 	Account account2 = new local AccountImpl();
-	account2.setFirstName("Budi");
-	account2.setLastName("Budiman");
+	account2.setFirstName("Agung");
+	account2.setLastName("Wicaksono");
 	//absdborm.save(account2);
 	
 	
 	//Scenarion Find (1 item)
-	Account akun = absdborm.find("Test.AccountImpl_c");
-	String nama = akun.getFirstName();
-	absdborm.log(nama);
-	
-	Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=12");
+	Account akun1 = absdborm.find("Test.AccountImpl_c");
+	String nama1 = akun1.getFirstName();
+    if(akun1 == null) {
+        absdborm.log("Null");
+    } else {
+        absdborm.log(nama1);
+    }
+
+	Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=4");
 	String nama2 = akun2.getFirstName();
-	absdborm.log(nama2);
+	if(akun2 == null) {
+        absdborm.log("Null");
+	} else {
+	    absdborm.log(nama2);
+	}
 }

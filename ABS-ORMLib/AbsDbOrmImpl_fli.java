@@ -48,9 +48,15 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
 			
 			AbsJavaReflection reflection = AbsJavaReflection.createReflection(object);
 			ResultSet rs = this.select(object, condition.getString());
-			this.createObjectFromResult(rs, reflection);
-			
-			return (Account_i) object;
+            if(rs.next()) {
+                this.createObjectFromResult(rs, reflection);
+            }
+
+            if(object == null) {
+                return null;
+            } else {
+                return (Account_i) object;
+            }
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -75,15 +81,15 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
 			String return_type = m.getReturnType().toString();
 			
 			String value = null;
-			if(return_type.equals("class abs.backend.java.lib.types.ABSString") && (reflection.invokeMethod(m)) != null) {
+			if(return_type.equals(AbsJavaReflection.ABSStringClassName) && (reflection.invokeMethod(m)) != null) {
 				value = ((abs.backend.java.lib.types.ABSString)(reflection.invokeMethod(m))).getString();
-			} else if(return_type.equals("class abs.backend.java.lib.types.ABSInteger") && (reflection.invokeMethod(m)) != null) {
+			} else if(return_type.equals(AbsJavaReflection.ABSIntegerClassName) && (reflection.invokeMethod(m)) != null) {
 				int int_value = ((abs.backend.java.lib.types.ABSInteger)(reflection.invokeMethod(m))).toInt();
 				StringBuilder string = new StringBuilder();
 				string.append("");
 				string.append(int_value);
 				value = string.toString();
-			} else if(return_type.equals("class abs.backend.java.lib.types.ABSRational") && (reflection.invokeMethod(m)) != null) {
+			} else if(return_type.equals(AbsJavaReflection.ABSRationalClassName) && (reflection.invokeMethod(m)) != null) {
 				int int_value = ((abs.backend.java.lib.types.ABSRational)(reflection.invokeMethod(m))).toInt();
 				StringBuilder string = new StringBuilder();
 				string.append("");
@@ -158,7 +164,7 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
 	
 	private void createObjectFromResult(ResultSet result, AbsJavaReflection reflection) {
 		try {
-			if(result.next()) {
+			if(result != null) {
 				for(Method m : reflection.getSetterMethod()) {
 					String methodName = m.getName();
 					String fieldName = this.createFieldName(methodName);
@@ -166,11 +172,11 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
 					String return_type = m.getReturnType().toString();
 					String value = result.getString(fieldName);
 					String parameterType = reflection.getParameterType(m);
-					if(parameterType.equals("class abs.backend.java.lib.types.ABSString")) {
+					if(parameterType.equals(AbsJavaReflection.ABSStringClassName)) {
 						reflection.invokeMethod(m, (Object) abs.backend.java.lib.types.ABSString.fromString(value));
-					} else if(parameterType.equals("class abs.backend.java.lib.types.ABSInteger")) {
+					} else if(parameterType.equals(AbsJavaReflection.ABSIntegerClassName)) {
 						reflection.invokeMethod(m, (Object) abs.backend.java.lib.types.ABSInteger.fromString(value));
-					} else if(parameterType.equals("class abs.backend.java.lib.types.ABSRational")) {
+					} else if(parameterType.equals(AbsJavaReflection.ABSRationalClassName)) {
 						reflection.invokeMethod(m, (Object) abs.backend.java.lib.types.ABSRational.fromString(value));
 					}
 				}
@@ -245,6 +251,11 @@ class AbsJdbcTransaction {
 }
 	
 class AbsJavaReflection {
+    public static final String ABSStringClassName = "class abs.backend.java.lib.types.ABSString";
+    public static final String ABSIntegerClassName = "class abs.backend.java.lib.types.ABSInteger";
+    public static final String ABSRationalClassName = "class abs.backend.java.lib.types.ABSRational";
+    public static final String ABSUnitClassName = "class abs.backend.java.lib.types.ABSUnit";
+
 	private Object object;
 	
 	private AbsJavaReflection(Object object) {
@@ -281,9 +292,9 @@ class AbsJavaReflection {
 				String return_type = ((Method) m).getReturnType().toString();
 	
 				if(method_name.length() >= 3 && method_name.substring(0,3).equals("get")) {
-					if(return_type.equals("class abs.backend.java.lib.types.ABSString") 
-					|| return_type.equals("class abs.backend.java.lib.types.ABSInteger")
-					|| return_type.equals("class abs.backend.java.lib.types.ABSRational")) {
+					if(return_type.equals(AbsJavaReflection.ABSStringClassName)
+					|| return_type.equals(AbsJavaReflection.ABSIntegerClassName)
+					|| return_type.equals(AbsJavaReflection.ABSRationalClassName)) {
 						methodList.add(m);
 					}
 				}
@@ -306,7 +317,7 @@ class AbsJavaReflection {
 				String return_type = ((Method) m).getReturnType().toString();
 	
 				if(method_name.length() >= 3 && method_name.substring(0,3).equals("set")) {
-					if(return_type.equals("class abs.backend.java.lib.types.ABSUnit")) {
+					if(return_type.equals(AbsJavaReflection.ABSUnitClassName)) {
 						methodList.add(m);
 					}
 				}
