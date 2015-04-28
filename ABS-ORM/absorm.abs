@@ -1,7 +1,7 @@
 module Test;
 import * from ABS.FLI;
 
-interface AbsDbOrm {
+interface AccountDb {
 	List<Account> findAll(String className);
 	List<Account> findAllByAttributes(String className, String query);
 	Account find(String className);
@@ -14,7 +14,7 @@ interface AbsDbOrm {
 }
 	
 [Foreign]
-class AbsDbOrmImpl implements AbsDbOrm {
+class AccountDbImpl implements AccountDb {
 	List<Account> findAllByAttributes(String className, String query) {
 		return Nil;
 	}
@@ -43,8 +43,6 @@ class AbsDbOrmImpl implements AbsDbOrm {
 		return "return log";
 	}
 }
-
-
 
 interface Account
 {
@@ -108,14 +106,14 @@ class AccountImpl implements Account
 
 {
 	//Scenario Save
-	AbsDbOrm absdborm = new local AbsDbOrmImpl();
-	Account account = new local AccountImpl();
-	account.setFirstName("Kandito");
+	//AccountDb absdborm = new local AccountDbImpl();
+	//Account account = new local AccountImpl();
+	//account.setFirstName("Kandito");
 	//absdborm.save(account);
 	
-	Account account2 = new local AccountImpl();
-	account2.setFirstName("Agung");
-	account2.setLastName("Wicaksono");
+	//Account account2 = new local AccountImpl();
+	//account2.setFirstName("Agung");
+	//account2.setLastName("Wicaksono");
 	//absdborm.save(account2);
 	
 	
@@ -136,16 +134,18 @@ class AccountImpl implements Account
 	//    absdborm.log(nama2);
 	//}
 
-    //akun2.setLastName("A Wicaksono");
+    //akun2.setFirstName("Kandito");
     //absdborm.update(akun2);
 
+    //absdborm.delete(akun2);
+
     //Scenario Find by List
-    List<Account> list = absdborm.findAll("Test.AccountImpl_c");
-    Int index = 0;
-    while(index < length(list)) {
-    	Account a = nth(list, index);
-    	String name = a.getFirstName();
-    	absdborm.log(name);
-    	index = index + 1;
-    }
+    //List<Account> list = absdborm.findAll("Test.AccountImpl_c");
+    //Int index = 0;
+    //while(index < length(list)) {
+    //	Account a = nth(list, index);
+    //	String name = a.getFirstName();
+    //	absdborm.log(name);
+    //	index = index + 1;
+    //}
 }

@@ -22,17 +22,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
-import Test.AbsDbOrmImpl_c; 
-import Test.AccountImpl_c; 
+import Test.AccountDbImpl_c;
+import Test.AccountImpl_c;
 
 import java.util.List; 
-import java.util.Iterator; 
+import java.util.Iterator;
 
-public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {	
-	@Override
-	public ABS.StdLib.List<Account_i> fli_findAllByAttributes(abs.backend.java.lib.types.ABSString className, abs.backend.java.lib.types.ABSString condition) {
+public class AbsDbOrm  {
+	public ABS.StdLib.List<abs.backend.java.lib.types.ABSValue> findAllByAttributes(abs.backend.java.lib.types.ABSString className, abs.backend.java.lib.types.ABSString condition) {
         try {
-            ABS.StdLib.List<Account_i> listObject = new ABS.StdLib.List_Nil();
+            ABS.StdLib.List<abs.backend.java.lib.types.ABSValue> listObject = new ABS.StdLib.List_Nil();
             Class c = Class.forName(className.getString());
             Object object = c.newInstance();
 
@@ -41,7 +40,7 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
             while(rs.next()) {
                 reflection = AbsJavaReflection.createReflection(object);
                 this.createObjectFromResult(rs, reflection);
-                listObject = ABS.StdLib.appendright_f.apply(listObject, (Account_i) object);
+                listObject = ABS.StdLib.appendright_f.apply(listObject, (abs.backend.java.lib.types.ABSValue) object);
                 object = c.newInstance();
             }
 
@@ -51,14 +50,12 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
         }
         return null;
 	}
-	
-	@Override
-	public ABS.StdLib.List<Account_i> fli_findAll(abs.backend.java.lib.types.ABSString className) {
-		return this.fli_findAllByAttributes(className, abs.backend.java.lib.types.ABSString.fromString(""));
+
+	public ABS.StdLib.List<abs.backend.java.lib.types.ABSValue> findAll(abs.backend.java.lib.types.ABSString className) {
+		return this.findAllByAttributes(className, abs.backend.java.lib.types.ABSString.fromString(""));
 	}
-	
-	@Override
-	public Account_i fli_findByAttributes(abs.backend.java.lib.types.ABSString className, abs.backend.java.lib.types.ABSString condition) {
+
+	public abs.backend.java.lib.runtime.ABSObject findByAttributes(abs.backend.java.lib.types.ABSString className, abs.backend.java.lib.types.ABSString condition) {
 		try {
 			Class c = Class.forName(className.getString());
 			Object object = c.newInstance();
@@ -72,21 +69,19 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
             if(object == null) {
                 return null;
             } else {
-                return (Account_i) object;
+                return (abs.backend.java.lib.runtime.ABSObject) object;
             }
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		return null;
 	}
-	
-	@Override
-	public Account_i fli_find(abs.backend.java.lib.types.ABSString className) {
-		return this.fli_findByAttributes(className, abs.backend.java.lib.types.ABSString.fromString(""));
+
+	public abs.backend.java.lib.runtime.ABSObject find(abs.backend.java.lib.types.ABSString className) {
+		return this.findByAttributes(className, abs.backend.java.lib.types.ABSString.fromString(""));
 	}
-	
-	@Override
-	public abs.backend.java.lib.types.ABSUnit fli_save(Account_i account) {
+
+	public abs.backend.java.lib.types.ABSUnit save(abs.backend.java.lib.runtime.ABSObject account) {
 		AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
 		String className = reflection.getInterfaceName();
 		Map<String, String> attributes = new HashMap<String, String>();
@@ -107,9 +102,8 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
 		transaction.createUpdateStatement(query);
 		return null;
 	}
-	
-	@Override
-	public abs.backend.java.lib.types.ABSUnit fli_delete(Account_i account) {
+
+	public abs.backend.java.lib.types.ABSUnit delete(abs.backend.java.lib.runtime.ABSObject account) {
         AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
         String className = reflection.getInterfaceName();
 		AbsJdbcTransaction transaction = AbsJdbcTransaction.createTransaction();
@@ -131,9 +125,8 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
         }
         return null;
 	}
-	
-	@Override
-	public Account_i fli_update(Account_i account) {
+
+	public abs.backend.java.lib.runtime.ABSObject update(abs.backend.java.lib.runtime.ABSObject account) {
         AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
         String className = reflection.getInterfaceName();
         AbsJdbcTransaction transaction = AbsJdbcTransaction.createTransaction();
@@ -158,26 +151,7 @@ public class AbsDbOrmImpl_fli extends AbsDbOrmImpl_c {
 
         return null;
     }
-	
-	@Override
-	public abs.backend.java.lib.types.ABSString fli_log(abs.backend.java.lib.types.ABSString text) {
-		System.out.println(text.getString());
-		return abs.backend.java.lib.types.ABSString.fromString("Java String");
-	}
-	
-	@Override
-	public abs.backend.java.lib.types.ABSString fli_object_log(Account_i account) {
-		AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
-		for(Method m : reflection.getGetterMethod()) {
-			System.out.println(m.getName());
-		}
-		
-		for(Method m : reflection.getSetterMethod()) {
-			System.out.println(m.getName());
-		}
-		return abs.backend.java.lib.types.ABSString.fromString("Java Object");
-	}
-	
+
 	private ResultSet select(Object object, String condition) {
 		AbsJavaReflection reflection = AbsJavaReflection.createReflection(object);
 		String tableName = reflection.getInterfaceName();
