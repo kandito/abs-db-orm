@@ -414,7 +414,7 @@ class AbsJavaReflection {
 class AbsSqlCommandBuilder {
 	private StringBuilder command;
 	
-	public AbsSqlCommandBuilder() {
+	private AbsSqlCommandBuilder() {
 		this.command = new StringBuilder();
 	}
 	

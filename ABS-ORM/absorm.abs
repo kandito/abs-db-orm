@@ -106,7 +106,7 @@ class AccountImpl implements Account
 
 {
 	//Scenario Save
-	//AccountDb absdborm = new local AccountDbImpl();
+	AccountDb absdborm = new local AccountDbImpl();
 	//Account account = new local AccountImpl();
 	//account.setFirstName("Kandito");
 	//absdborm.save(account);
@@ -140,12 +140,12 @@ class AccountImpl implements Account
     //absdborm.delete(akun2);
 
     //Scenario Find by List
-    //List<Account> list = absdborm.findAll("Test.AccountImpl_c");
-    //Int index = 0;
-    //while(index < length(list)) {
-    //	Account a = nth(list, index);
-    //	String name = a.getFirstName();
-    //	absdborm.log(name);
-    //	index = index + 1;
-    //}
+    List<Account> list = absdborm.findAll("Test.AccountImpl_c");
+    Int index = 0;
+    while(index < length(list)) {
+    	Account a = nth(list, index);
+    	String name = a.getFirstName();
+    	absdborm.log(name);
+    	index = index + 1;
+    }
 }
