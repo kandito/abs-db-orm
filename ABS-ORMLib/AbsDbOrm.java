@@ -22,9 +22,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
-import Test.AccountDbImpl_c;
-import Test.AccountImpl_c;
-
 import java.util.List; 
 import java.util.Iterator;
 
@@ -81,8 +78,8 @@ public class AbsDbOrm  {
 		return this.findByAttributes(className, abs.backend.java.lib.types.ABSString.fromString(""));
 	}
 
-	public abs.backend.java.lib.types.ABSUnit save(abs.backend.java.lib.runtime.ABSObject account) {
-		AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
+	public abs.backend.java.lib.types.ABSUnit save(abs.backend.java.lib.runtime.ABSObject object) {
+		AbsJavaReflection reflection = AbsJavaReflection.createReflection(object);
 		String className = reflection.getInterfaceName();
 		Map<String, String> attributes = new HashMap<String, String>();
 		
@@ -103,8 +100,8 @@ public class AbsDbOrm  {
 		return null;
 	}
 
-	public abs.backend.java.lib.types.ABSUnit delete(abs.backend.java.lib.runtime.ABSObject account) {
-        AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
+	public abs.backend.java.lib.types.ABSUnit delete(abs.backend.java.lib.runtime.ABSObject object) {
+        AbsJavaReflection reflection = AbsJavaReflection.createReflection(object);
         String className = reflection.getInterfaceName();
 		AbsJdbcTransaction transaction = AbsJdbcTransaction.createTransaction();
         String primaryKeyName = transaction.getPrimaryKeyName(className);
@@ -119,15 +116,15 @@ public class AbsDbOrm  {
                 AbsSqlCommandBuilder command = AbsSqlCommandBuilder.getCommandBuilder();
                 String query = command.delete(className, condition);
                 transaction.createUpdateStatement(query);
-                account = null;
+                object = null;
                 break;
             }
         }
         return null;
 	}
 
-	public abs.backend.java.lib.runtime.ABSObject update(abs.backend.java.lib.runtime.ABSObject account) {
-        AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
+	public abs.backend.java.lib.runtime.ABSObject update(abs.backend.java.lib.runtime.ABSObject object) {
+        AbsJavaReflection reflection = AbsJavaReflection.createReflection(object);
         String className = reflection.getInterfaceName();
         AbsJdbcTransaction transaction = AbsJdbcTransaction.createTransaction();
         String primaryKeyName = transaction.getPrimaryKeyName(className);
@@ -452,28 +449,28 @@ class AbsSqlCommandBuilder {
 	}
 	
 	public String select(String table, Map<String, String> condition) {
-		this.command.append("SELECT * FROM ");
-		this.command.append(table);
-		if(condition != null) {
-			this.command.append(" WHERE ");
-			Iterator iterator = condition.entrySet().iterator();
-			while(iterator.hasNext()) {
-				Map.Entry pair = (Map.Entry) iterator.next();
-				this.command.append(pair.getKey());
-				this.command.append("=");
-				this.command.append("\"");
-				this.command.append(pair.getValue());
-				this.command.append("\"");
-				
-				if(iterator.hasNext()) {
-					this.command.append(" AND ");
-				}
-			}
-		}
-		return this.command.toString();
-	}	
-	
-	public String delete(String table, Map<String, String> condition) {
+        this.command.append("SELECT * FROM ");
+        this.command.append(table);
+        if(condition != null) {
+            this.command.append(" WHERE ");
+            Iterator iterator = condition.entrySet().iterator();
+            while(iterator.hasNext()) {
+                Map.Entry pair = (Map.Entry) iterator.next();
+                this.command.append(pair.getKey());
+                this.command.append("=");
+                this.command.append("\"");
+                this.command.append(pair.getValue());
+                this.command.append("\"");
+
+                if(iterator.hasNext()) {
+                    this.command.append(" AND ");
+                }
+            }
+        }
+        return this.command.toString();
+    }
+
+    public String delete(String table, Map<String, String> condition) {
         this.command.append("DELETE FROM ");
         this.command.append(table);
         if(condition != null) {
