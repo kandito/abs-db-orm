@@ -140,7 +140,7 @@ class AccountImpl implements Account
     //absdborm.delete(akun2);
 
     //Scenario Find by List
-    List<Account> list = absdborm.findAll("Test.AccountImpl_c");
+    List<Account> list = absdborm.findAllByAttributes("Test.AccountImpl_c","id=1,firstName='Kandito'");
     Int index = 0;
     while(index < length(list)) {
     	Account a = nth(list, index);
