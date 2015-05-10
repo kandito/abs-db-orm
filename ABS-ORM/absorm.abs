@@ -107,26 +107,26 @@ class AccountImpl implements Account
 {
 	//Scenario Save
 	AccountDb absdborm = new local AccountDbImpl();
-	//Account account = new local AccountImpl();
-	//account.setFirstName("Kandito");
-	//absdborm.save(account);
+	Account account = new local AccountImpl();
+	account.setFirstName("Kandito");
+	absdborm.save(account);
 	
-	//Account account2 = new local AccountImpl();
-	//account2.setFirstName("Agung");
-	//account2.setLastName("Wicaksono");
-	//absdborm.save(account2);
+	Account account2 = new local AccountImpl();
+	account2.setFirstName("Agung");
+	account2.setLastName("Wicaksono");
+	absdborm.save(account2);
 	
 	
 	//Scenario Find (1 item)
-	//Account akun1 = absdborm.find("Test.AccountImpl_c");
-	//String nama1 = akun1.getFirstName();
-    //if(akun1 == null) {
-    //    absdborm.log("Null");
-    //} else {
-    //    absdborm.log(nama1);
-    //}
+	Account akun1 = absdborm.find("Test.AccountImpl_c");
+	String nama1 = akun1.getFirstName();
+    if(akun1 == null) {
+        absdborm.log("Null");
+    } else {
+        absdborm.log(nama1);
+    }
 
-	//Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=4");
+	//Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=1");
 	//String nama2 = akun2.getFirstName();
 	//if(akun2 == null) {
     //    absdborm.log("Null");
@@ -137,15 +137,15 @@ class AccountImpl implements Account
     //akun2.setFirstName("Kandito");
     //absdborm.update(akun2);
 
-    //absdborm.delete(akun2);
+    //absdborm.delete(akun1);
 
     //Scenario Find by List
-    List<Account> list = absdborm.findAllByAttributes("Test.AccountImpl_c","id=1,firstName='Kandito'");
-    Int index = 0;
-    while(index < length(list)) {
-    	Account a = nth(list, index);
-    	String name = a.getFirstName();
-    	absdborm.log(name);
-    	index = index + 1;
-    }
+    //List<Account> list = absdborm.findAll("Test.AccountImpl_c");
+    //Int index = 0;
+    //while(index < length(list)) {
+    //	Account a = nth(list, index);
+    //	String name = a.getFirstName();
+    //	absdborm.log(name);
+    //	index = index + 1;
+    //}
 }
