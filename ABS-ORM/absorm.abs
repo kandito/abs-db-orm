@@ -126,26 +126,28 @@ class AccountImpl implements Account
         absdborm.log(nama1);
     }
 
-	//Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=1");
-	//String nama2 = akun2.getFirstName();
-	//if(akun2 == null) {
-    //    absdborm.log("Null");
-	//} else {
-	//    absdborm.log(nama2);
-	//}
+	Account akun2 = absdborm.findByAttributes("Test.AccountImpl_c", "id=1");
+	String nama2 = akun2.getFirstName();
+	if(akun2 == null) {
+        absdborm.log("Null");
+	} else {
+	    absdborm.log(nama2);
+	}
 
-    //akun2.setFirstName("Kandito");
-    //absdborm.update(akun2);
+	// Scenario update akun2
+  akun2.setFirstName("Kandito");
+  absdborm.update(akun2);
 
-    //absdborm.delete(akun1);
+	// Scenario delete akun1
+  absdborm.delete(akun1);
 
-    //Scenario Find by List
-    //List<Account> list = absdborm.findAll("Test.AccountImpl_c");
-    //Int index = 0;
-    //while(index < length(list)) {
-    //	Account a = nth(list, index);
-    //	String name = a.getFirstName();
-    //	absdborm.log(name);
-    //	index = index + 1;
-    //}
+  // Scenario Find by List
+  List<Account> list = absdborm.findAll("Test.AccountImpl_c");
+  Int index = 0;
+  while(index < length(list)) {
+   	Account a = nth(list, index);
+  	String name = a.getFirstName();
+  	absdborm.log(name);
+  	index = index + 1;
+  }
 }

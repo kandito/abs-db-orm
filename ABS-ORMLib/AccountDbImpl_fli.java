@@ -38,23 +38,23 @@ public class AccountDbImpl_fli extends AccountDbImpl_c {
     }
 
     @Override
-    public abs.backend.java.lib.types.ABSUnit fli_save(Account_i account) {
+    public abs.backend.java.lib.types.ABSUnit fli_save(Account_i object) {
         AbsDbOrm absdborm = new AbsDbOrm();
-        absdborm.save((abs.backend.java.lib.runtime.ABSObject) account);
+        absdborm.save((abs.backend.java.lib.runtime.ABSObject) object);
         return null;
     }
 
     @Override
-    public abs.backend.java.lib.types.ABSUnit fli_delete(Account_i account) {
+    public abs.backend.java.lib.types.ABSUnit fli_delete(Account_i object) {
         AbsDbOrm absdborm = new AbsDbOrm();
-        absdborm.delete((abs.backend.java.lib.runtime.ABSObject) account);
+        absdborm.delete((abs.backend.java.lib.runtime.ABSObject) object);
         return null;
     }
 
     @Override
-    public Account_i fli_update(Account_i account) {
+    public abs.backend.java.lib.types.ABSUnit fli_update(Account_i object) {
         AbsDbOrm absdborm = new AbsDbOrm();
-        absdborm.update((abs.backend.java.lib.runtime.ABSObject) account);
+        absdborm.update((abs.backend.java.lib.runtime.ABSObject) object);
         return null;
     }
 
@@ -65,8 +65,8 @@ public class AccountDbImpl_fli extends AccountDbImpl_c {
     }
 
     @Override
-    public abs.backend.java.lib.types.ABSString fli_object_log(Account_i account) {
-        AbsJavaReflection reflection = AbsJavaReflection.createReflection(account);
+    public abs.backend.java.lib.types.ABSString fli_object_log(Account_i object) {
+        AbsJavaReflection reflection = AbsJavaReflection.createReflection(object);
         for(Method m : reflection.getGetterMethod()) {
             System.out.println(m.getName());
         }
